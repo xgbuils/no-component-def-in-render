@@ -1,0 +1,26 @@
+{
+	"name": "eslint-restricted-nested-component-def",
+	"version": "0.1.0",
+	"description": "avoid nested component definitions ",
+	"main": "src/index.js",
+	"scripts": {
+		"format": "prettier . --write",
+		"test": "node test/index.test.js",
+		"prepare": "husky install",
+		"pre-commit": "npm run format && npm run test"
+	},
+	"keywords": [
+		"eslint",
+		"no",
+		"nested",
+		"component",
+		"definition"
+	],
+	"author": "Xavier Garcia Buils <xgbuils@gmail.com>",
+	"license": "ISC",
+	"devDependencies": {
+		"eslint": "^8.47.0",
+		"husky": "^8.0.3",
+		"prettier": "^3.0.3"
+	}
+}
