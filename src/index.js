@@ -1,5 +1,5 @@
 const { getIdentifiers } = require("./utils/getIdentifiers");
-const { createMaybeParentComponent } = require("./utils/maybeParentComponent");
+const { createParentTraverser } = require("./utils/parentTraverser");
 
 const functionDeclarationTypes = ["ClassDeclaration", "FunctionDeclaration"];
 const declarationTypes = [...functionDeclarationTypes, "VariableDeclaration"];
@@ -41,26 +41,22 @@ const createReporter = (context, componentName) => ({
 const validate = (context, node, componentName) => {
 	const filterNestedComponents = createNestedComponentsFilter(componentName);
 	const reporter = createReporter(context, componentName);
-	let maybeParent = createMaybeParentComponent(node);
+	const parentTraverser = createParentTraverser(node);
 	let nestedComponentNodes = [];
 
-	while (!maybeParent.isParent) {
-		const { rawNode } = maybeParent;
-		if (
-			nestedComponentNodes.length === 0 &&
-			rawNode.type === "BlockStatement"
-		) {
-			const variables = getVariableIdentifiers(rawNode);
-			nestedComponentNodes = filterNestedComponents(variables);
-		}
-		maybeParent = createMaybeParentComponent(rawNode.parent);
-	}
-	if (nestedComponentNodes.length === 0) {
-		const params = maybeParent.getParamIds();
-		nestedComponentNodes = filterNestedComponents(params);
-	}
-	const parentName = maybeParent.getParentName();
-	reporter.report(parentName, nestedComponentNodes);
+	parentTraverser
+		.forEach((node) => {
+			if (nestedComponentNodes.length === 0 && node.type === "BlockStatement") {
+				const variables = getVariableIdentifiers(node);
+				nestedComponentNodes = filterNestedComponents(variables);
+			}
+		})
+		.end(({ parentName, paramIds }) => {
+			if (nestedComponentNodes.length === 0) {
+				nestedComponentNodes = filterNestedComponents(paramIds);
+			}
+			reporter.report(parentName, nestedComponentNodes);
+		});
 };
 
 module.exports = {

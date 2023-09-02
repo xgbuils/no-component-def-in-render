@@ -3,7 +3,7 @@ const hocTests = require("./hoc.test.js");
 const hooksTests = require("./hooks.test.js");
 const mapTests = require("./map.test.js");
 const renderFnTests = require("./renderFn.test.js");
-const ternaryTests = require('./ternary.test.js');
+const ternaryTests = require("./ternary.test.js");
 
 basicTests.run();
 hooksTests.run();
