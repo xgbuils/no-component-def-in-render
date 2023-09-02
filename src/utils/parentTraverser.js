@@ -46,7 +46,6 @@ const createParentTraverser = (node) => {
 	return {
 		forEach(callback) {
 			let result = parseNode(node);
-			let index = 0;
 			while (!result.isParent) {
 				callback(result.node);
 				result = parseNode(result.node.parent);
