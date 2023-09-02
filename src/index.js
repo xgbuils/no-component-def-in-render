@@ -72,7 +72,17 @@ module.exports = {
 		},
 		fixable: "code",
 		hasSuggestions: true,
-		schema: [],
+		schema: [
+			{
+				type: "object",
+				properties: {
+					allowTernary: {
+						type: "boolean",
+					},
+				},
+				additionalProperties: false,
+			},
+		],
 	},
 	create(context) {
 		return {
