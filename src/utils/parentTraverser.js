@@ -1,6 +1,4 @@
-const { getIdentifiers } = require("./getIdentifiers");
-
-const getParamIdentifiers = (node) => node.params.flatMap(getIdentifiers);
+const { createCallable } = require("../nodes/Callable");
 
 const isParentPredicateMap = {
 	MethodDefinition: (node) => node.type === "FunctionExpression",
@@ -24,24 +22,6 @@ const parseNode = (node) => {
 	};
 };
 
-const getParentName = ({ isParent, isMethod, node }) => {
-	if (!isParent) {
-		return "";
-	}
-	if (isMethod) {
-		return node.key.name === "render"
-			? node.parent.parent.id.name
-			: node.key.name;
-	}
-	if (node.type === "FunctionDeclaration") {
-		return node.id.name;
-	}
-	if (node?.parent?.type !== "VariableDeclarator") {
-		return "";
-	}
-	return node.parent.id.name;
-};
-
 const createParentTraverser = (node) => {
 	return {
 		forEach(callback) {
@@ -52,9 +32,8 @@ const createParentTraverser = (node) => {
 			}
 			return {
 				end(callback) {
-					const paramIds = getParamIdentifiers(result.functionNode);
-					const parentName = getParentName(result);
-					callback({ parentName, paramIds });
+					const callable = createCallable(result.functionNode);
+					callback(callable);
 				},
 			};
 		},

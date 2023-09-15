@@ -11,7 +11,7 @@ const valid = [
 		const ParentComponent = ({list}) => {
 			return (
 				<div>
-				  {list.map((item) => {
+					{list.map((item) => {
 						return <NestedComponent {...item} />
 					})}
 				</div>
@@ -27,7 +27,7 @@ const valid = [
 		const ParentComponent = ({list}) => {
 			return (
 				<div>
-				  {list.map(function(item) {
+					{list.map(function(item) {
 						return <NestedComponent {...item} />
 					})}
 				</div>
@@ -43,7 +43,7 @@ const valid = [
 		const ParentComponent = ({list}) => {
 			return (
 				<div>
-				  {list.map(function innerFunction(item) {
+					{list.map(function innerFunction(item) {
 						return <NestedComponent {...item} />
 					})}
 				</div>
@@ -62,7 +62,7 @@ const invalid = [
 		const ParentComponent = ({list}) => {
 			return (
 				<div>
-				  {list.map((item) => {
+					{list.map((item) => {
 						const NestedComponent = () => <div/>;
 						return <NestedComponent {...item} />
 					})}
@@ -79,7 +79,7 @@ const invalid = [
 		const ParentComponent = ({list}) => {
 			return (
 				<div>
-				  {list.map(function(item) {
+					{list.map(function(item) {
 						const NestedComponent = () => <div/>;
 						return <NestedComponent {...item} />
 					})}
@@ -93,17 +93,17 @@ const invalid = [
 		description:
 			"map named function callback with component declaration inside",
 		code: `
-		const ParentComponent = ({list}) => {
-			return (
-				<div>
-				  {list.map(function innerFunction(item) {
-						const NestedComponent = () => <div/>;
-						return <NestedComponent {...item} />
-					})}
-				</div>
-			)
-		};
-	`,
+			const ParentComponent = ({list}) => {
+				return (
+					<div>
+						{list.map(function innerFunction(item) {
+							const NestedComponent = () => <div/>;
+							return <NestedComponent {...item} />
+						})}
+					</div>
+				)
+			};
+		`,
 		errors: [{ message: ERROR_MESSAGE }],
 	},
 ];
