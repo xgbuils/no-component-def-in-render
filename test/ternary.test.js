@@ -10,7 +10,6 @@ const invalid = [
 		description: "create a nested component using ternary is not valid",
 		code: `
       const ParentComponent = ({success}) => {
-        var {emm, foo} = {foo: bar};
         const NestedComponent = success ? SuccessComponent : ErrorComponent;
         return <NestedComponent />;
       }

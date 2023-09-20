@@ -24,7 +24,7 @@ const createReporter = (context, componentName) => ({
 const validate = (context, node, componentName) => {
 	const reporter = createReporter(context, componentName);
 	const parentTraverser = createParentTraverser(node);
-	const errorCollector = createErrorCollector(componentName);
+	const errorCollector = createErrorCollector(context, componentName);
 
 	parentTraverser
 		.forEach((node) => {
@@ -52,6 +52,9 @@ module.exports = {
 			{
 				type: "object",
 				properties: {
+					allowRenaming: {
+						type: "boolean",
+					},
 					allowTernary: {
 						type: "boolean",
 					},
