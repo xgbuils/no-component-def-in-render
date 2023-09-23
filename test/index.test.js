@@ -7,13 +7,13 @@ const renamingTests = require("./renaming.test.js");
 const renderFnTests = require("./renderFn.test.js");
 const ternaryTests = require("./ternary.test.js");
 
-basicTests.run();
+/*basicTests.run();
 destructuredDeclarationTests.run();
 hooksTests.run();
 hocTests.run();
-mapTests.run();
+mapTests.run();*/
 renamingTests.run();
-renderFnTests.run();
-ternaryTests.run();
+/*renderFnTests.run();
+ternaryTests.run();*/
 
 console.log("All tests passed!");

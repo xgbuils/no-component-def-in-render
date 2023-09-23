@@ -1,18 +1,26 @@
 const { createBlockStatement } = require("../nodes/BlockStatement");
 
-const getRenamedVariable = (blockStatement, variableName) => {
-	let currentVariableName = variableName;
-	let node = blockStatement.getVariable(variableName);
-	while (node && node.init.type === "Identifier") {
-		currentVariableName = node.init.name;
-		node = blockStatement.getVariable(currentVariableName);
+const createRenamedVariablesChecker = (componentName) => {
+	let currentVariableName = componentName;
+	return {
+		evaluate(blockStatement) {
+			let node = blockStatement.getVariable(componentName);
+			while (node) {
+				if (node.init.type === "Identifier") {
+					currentVariableName = node.init.name;
+					node = blockStatement.getVariable(currentVariableName);
+				} else {
+					break;
+				}
+			}
+			return currentVariableName;
+		}
 	}
-	return currentVariableName;
-};
+}
 
 const createErrorCollector = (context, componentName) => {
 	const options = context.options[0] ?? {};
-	let variableToCheck = componentName;
+	const renamedVariablesChecker = createRenamedVariablesChecker(componentName);
 	let errorNode = null;
 
 	return {
@@ -20,10 +28,10 @@ const createErrorCollector = (context, componentName) => {
 			const blockStatement = createBlockStatement(node);
 			if (!errorNode) {
 				if (options.allowRenaming) {
-					variableToCheck = getRenamedVariable(blockStatement, variableToCheck);
-					errorNode = blockStatement.getVariable(variableToCheck);
+					const variableName = renamedVariablesChecker.evaluate(blockStatement);
+					errorNode = blockStatement.getVariable(variableName);
 				} else {
-					errorNode = blockStatement.getVariable(variableToCheck);
+					errorNode = blockStatement.getVariable(componentName);
 				}
 			}
 		},

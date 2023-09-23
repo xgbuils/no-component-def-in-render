@@ -5,9 +5,10 @@
 	"main": "src/index.js",
 	"scripts": {
 		"format": "prettier . --write",
-		"test": "node test/index.test.js",
+		"lint": "eslint",
 		"prepare": "husky install",
-		"pre-commit": "npm run format && npm run test"
+		"pre-commit": "npm run format && npm run test",
+		"test": "node test/index.test.js"
 	},
 	"keywords": [
 		"eslint",
@@ -19,7 +20,8 @@
 	"author": "Xavier Garcia Buils <xgbuils@gmail.com>",
 	"license": "ISC",
 	"devDependencies": {
-		"eslint": "^8.47.0",
+		"eslint": "^8.49.0",
+		"eslint-config-airbnb": "^19.0.4",
 		"husky": "^8.0.3",
 		"prettier": "^3.0.3"
 	}
