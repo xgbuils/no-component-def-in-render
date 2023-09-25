@@ -1,47 +1,98 @@
 const { createBlockStatement } = require("../nodes/BlockStatement");
 
-const createRenamedVariablesChecker = (componentName) => {
-	let currentVariableName = componentName;
+const createNestedComponentValidator = (componentName, options) => {
+	let freeVariables = new Set();
+	let currentVariableNames = [componentName];
+	const invalidVariableValues = [];
 	return {
 		evaluate(blockStatement) {
-			let node = blockStatement.getVariable(componentName);
-			while (node) {
-				if (node.init.type === "Identifier") {
-					currentVariableName = node.init.name;
-					node = blockStatement.getVariable(currentVariableName);
-				} else {
-					break;
+			freeVariables = new Set();
+			let currentVariableValues;
+			let nextVariableValues = currentVariableNames.reduce(
+				(result, variableName) => {
+					const variable = blockStatement.getVariable(variableName);
+					if (variable) {
+						result.push(variable.init);
+						console.log(variableName);
+					} else {
+						console.log(variableName, variable);
+					}
+					return result;
+				},
+				[],
+			);
+			while (nextVariableValues.length > 0) {
+				currentVariableValues = nextVariableValues;
+				nextVariableValues = [];
+				for (const variableValue of currentVariableValues) {
+					if (
+						options.allowTernary &&
+						variableValue.type === "ConditionalExpression"
+					) {
+						nextVariableValues.push(variableValue.consequent);
+						nextVariableValues.push(variableValue.alternate);
+					} else if (variableValue.type === "Identifier") {
+						const nextVariable = blockStatement.getVariable(variableValue.name);
+						if (nextVariable) {
+							nextVariableValues.push(nextVariable.init);
+						} else {
+							freeVariables.add(variableValue.name);
+						}
+					} else {
+						invalidVariableValues.push(variableValue);
+					}
 				}
 			}
-			return currentVariableName;
-		}
+			currentVariableNames = [...freeVariables];
+			return invalidVariableValues;
+		},
+	};
+};
+
+const calculateOptions = (context) => {
+	const options = context.options[0] ?? {};
+	if (Object.keys(options).length === 0) {
+		return {};
 	}
-}
+	return {
+		...options,
+		allowRenaming: true,
+	};
+};
 
 const createErrorCollector = (context, componentName) => {
-	const options = context.options[0] ?? {};
-	const renamedVariablesChecker = createRenamedVariablesChecker(componentName);
+	const options = calculateOptions(context);
+	const nestedComponentValidator = createNestedComponentValidator(
+		componentName,
+		options,
+	);
 	let errorNode = null;
+	let invalidNodes = [];
 
 	return {
 		evaluateVariables(node) {
 			const blockStatement = createBlockStatement(node);
 			if (!errorNode) {
 				if (options.allowRenaming) {
-					const variableName = renamedVariablesChecker.evaluate(blockStatement);
-					errorNode = blockStatement.getVariable(variableName);
+					invalidNodes = nestedComponentValidator.evaluate(blockStatement);
 				} else {
 					errorNode = blockStatement.getVariable(componentName);
+					if (errorNode) {
+						invalidNodes.push(errorNode);
+					}
 				}
 			}
 		},
 		evaluateParams(callable) {
 			if (!errorNode) {
 				errorNode = callable.getParam(componentName);
+				if (errorNode) {
+					invalidNodes.push(errorNode);
+				}
 			}
 		},
 		getErrorNodes() {
-			return errorNode ? [errorNode] : [];
+			return invalidNodes;
 		},
 	};
 };
