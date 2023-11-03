@@ -4,7 +4,7 @@ const ERROR_MESSAGE =
 	'Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://react.dev/learn/your-first-component#nesting-and-organizing-components). Instead, move the component "NestedComponent" declaration out of the function "ParentComponent" where it is rendered.';
 
 const valid = [
-	/*{
+	{
 		description: "nested component assign",
 		code: `
 			const ParentComponent = () => {
@@ -26,7 +26,7 @@ const valid = [
 			}
 		`,
 		options: [{ allowRenaming: true }],
-	},*/
+	},
 	{
 		description: "multiple nested component assign in different scopes",
 		code: `
@@ -44,7 +44,7 @@ const valid = [
     `,
 		options: [{ allowRenaming: true }],
 	},
-	/*{
+	{
 		description: "simple object destructuring renaming",
 		code: `
 			const ParentComponent = () => {
@@ -98,11 +98,11 @@ const valid = [
 			}
 		`,
 		options: [{ allowRenaming: true }],
-	},*/
+	},
 ];
 
 const invalid = [
-	/*{
+	{
 		description: "nested component assign",
 		code: `
 			const ParentComponent = ({success}) => {
@@ -151,7 +151,7 @@ const invalid = [
 		`,
 		options: [{ allowRenaming: true }],
 		errors: [{ message: ERROR_MESSAGE }],
-	},*/
+	},
 ];
 
 const run = () => {
