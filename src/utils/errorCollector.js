@@ -13,9 +13,6 @@ const createNestedComponentValidator = (componentName, options) => {
 					const variable = blockStatement.getVariable(variableName);
 					if (variable) {
 						result.push(variable.init);
-						console.log(variableName);
-					} else {
-						console.log(variableName, variable);
 					}
 					return result;
 				},

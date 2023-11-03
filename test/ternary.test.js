@@ -5,10 +5,22 @@ const ERROR_MESSAGE =
 
 const valid = [
 	{
-		description: "create a nested component using ternary is not valid",
+		description: "create a nested component using ternary",
 		code: `
       const ParentComponent = ({success}) => {
         const NestedComponent = success ? SuccessComponent : ErrorComponent;
+        return <NestedComponent />;
+      }
+    `,
+		options: [{ allowTernary: true }],
+	},
+	{
+		description: "create a nested component using double ternary",
+		code: `
+      const ParentComponent = ({success, isValid}) => {
+        const NestedComponent = success
+					? (isValid ? SuccessValidComponent : SuccessInvalidComponent)
+				  : (isValid ? ErrorValidComponent : ErrorInvalidComponent);
         return <NestedComponent />;
       }
     `,
