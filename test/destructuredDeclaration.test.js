@@ -40,7 +40,7 @@ const valid = [
 
 const invalid = [
 	{
-		description: "nested component is declared in a object prop",
+		description: "nested component is declared in an object prop",
 		code: `
 		const ParentComponent = () => {
 			const { NestedComponent } = getComponents();
@@ -60,12 +60,36 @@ const invalid = [
 		errors: [{ message: ERROR_MESSAGE }],
 	},
 	{
+		description: "nested component is declared in an array prop",
+		code: `
+		const ParentComponent = () => {
+			const [ NestedComponent ] = getComponents();
+			return <NestedComponent />;
+		}
+	`,
+		errors: [{ message: ERROR_MESSAGE }],
+	},
+	{
 		description: "quite deep nested component is declared in object prop",
 		code: `
 		const ParentComponent = () => {
 			const { 
         prop: {
           foo: { NestedComponent }
+        }
+      } = getComponents();
+			return <NestedComponent />;
+		}
+	`,
+		errors: [{ message: ERROR_MESSAGE }],
+	},
+	{
+		description: "quite deep nested component is declared in array prop",
+		code: `
+		const ParentComponent = () => {
+			const { 
+        prop: {
+          foo: [ NestedComponent ]
         }
       } = getComponents();
 			return <NestedComponent />;
