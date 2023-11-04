@@ -1,7 +1,6 @@
 const { createBlockStatement } = require("../nodes/BlockStatement");
 
 const createNestedComponentValidator = (componentName, options) => {
-	let freeVariables = new Set();
 	let currentVariableNames = [componentName];
 	const invalidVariableValues = [];
 	return {
