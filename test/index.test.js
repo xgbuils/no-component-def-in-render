@@ -3,6 +3,7 @@ const destructuredDeclarationTests = require("./destructuredDeclaration.test.js"
 const hocTests = require("./hoc.test.js");
 const hooksTests = require("./hooks.test.js");
 const mapTests = require("./map.test.js");
+const objectFieldSelectionTests = require("./objectFieldSelection.test.js");
 const paramsTests = require("./params.test.js");
 const renamingTests = require("./renaming.test.js");
 const renderFnTests = require("./renderFn.test.js");
@@ -13,6 +14,7 @@ destructuredDeclarationTests.run();
 hooksTests.run();
 hocTests.run();
 mapTests.run();
+objectFieldSelectionTests.run();
 paramsTests.run();
 renamingTests.run();
 renderFnTests.run();

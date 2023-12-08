@@ -52,6 +52,9 @@ module.exports = {
 			{
 				type: "object",
 				properties: {
+					allowComponentMap: {
+						type: "boolean",
+					},
 					allowRenaming: {
 						type: "boolean",
 					},

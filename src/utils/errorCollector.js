@@ -22,6 +22,11 @@ const createNestedComponentValidator = (componentName, options) => {
 				nextVariableValues = [];
 				for (const variableValue of currentVariableValues) {
 					if (
+						options.allowComponentMap &&
+						variableValue.type === "MemberExpression"
+					) {
+						nextVariableValues.push(variableValue.object);
+					} else if (
 						options.allowTernary &&
 						variableValue.type === "ConditionalExpression"
 					) {
