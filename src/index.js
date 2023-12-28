@@ -55,6 +55,12 @@ module.exports = {
 					allowComponentMap: {
 						type: "boolean",
 					},
+					allowNullishOperator: {
+						type: "boolean",
+					},
+					allowOrOperator: {
+						type: "boolean",
+					},
 					allowRenaming: {
 						type: "boolean",
 					},

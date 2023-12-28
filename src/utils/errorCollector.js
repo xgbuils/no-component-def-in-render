@@ -22,6 +22,20 @@ const createNestedComponentValidator = (componentName, options) => {
 				nextVariableValues = [];
 				for (const variableValue of currentVariableValues) {
 					if (
+						options.allowOrOperator &&
+						variableValue.type === "LogicalExpression" &&
+						variableValue.operator == "||"
+					) {
+						nextVariableValues.push(variableValue.left);
+						nextVariableValues.push(variableValue.right);
+					} else if (
+						options.allowNullishOperator &&
+						variableValue.type === "LogicalExpression" &&
+						variableValue.operator == "??"
+					) {
+						nextVariableValues.push(variableValue.left);
+						nextVariableValues.push(variableValue.right);
+					} else if (
 						options.allowComponentMap &&
 						variableValue.type === "MemberExpression"
 					) {
