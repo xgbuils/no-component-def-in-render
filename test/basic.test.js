@@ -254,14 +254,7 @@ const invalid = [
 	},
 ];
 
-const run = () => {
-	const ruleTester = createRuleTester();
-	ruleTester.run({
-		valid,
-		invalid,
-	});
-};
-
-module.exports = {
-	run,
-};
+module.exports = createRuleTester({
+	valid,
+	invalid,
+});
