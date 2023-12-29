@@ -1,5 +1,5 @@
 const { RuleTester } = require("eslint");
-const noNestedComponentDefinition = require("../src");
+const noNestedComponentDefinition = require("../../src");
 
 const removeDescription = ({ description, ...props }) => props;
 
