@@ -1,11 +1,11 @@
-const { createBlockStatement } = require("../nodes/BlockStatement");
+import { createBlockStatement } from "../nodes/BlockStatement.js";
 
 const createNestedComponentValidator = (componentName, options) => {
 	let currentVariableNames = [componentName];
 	const invalidVariableValues = [];
 	return {
 		evaluate(blockStatement) {
-			freeVariables = new Set();
+			let freeVariables = new Set();
 			let currentVariableValues;
 			let nextVariableValues = currentVariableNames.reduce(
 				(result, variableName) => {
@@ -112,6 +112,4 @@ const createErrorCollector = (context, componentName) => {
 	};
 };
 
-module.exports = {
-	createErrorCollector,
-};
+export { createErrorCollector };

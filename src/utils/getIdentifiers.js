@@ -11,6 +11,4 @@ const getIdentifiers = (node) => {
 	return [];
 };
 
-module.exports = {
-	getIdentifiers,
-};
+export { getIdentifiers };

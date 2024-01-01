@@ -1,10 +1,10 @@
-const { createErrorCollector } = require("./utils/errorCollector.js");
-const { createParentTraverser } = require("./utils/parentTraverser.js");
+import { createErrorCollector } from "./utils/errorCollector.js";
+import { createParentTraverser } from "./utils/parentTraverser.js";
 
 const generateErrorMessage = (functionName, componentName) => {
-	return `Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://react.dev/learn/your-first-component#nesting-and-organizing-components). Instead, move the component "${componentName}" declaration out of the function${
-		functionName ? ` "${functionName}" ` : " "
-	}where it is rendered.`;
+	return `Do not declare component ${componentName} in the same scope is rendered. Move the component declaration out of the${
+		functionName ? ` ${functionName} ` : " function "
+	}scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components`;
 };
 
 const createReporter = (context, componentName) => ({
@@ -39,7 +39,7 @@ const validate = (context, node, componentName) => {
 		});
 };
 
-module.exports = {
+export default {
 	meta: {
 		type: "problem",
 		docs: {

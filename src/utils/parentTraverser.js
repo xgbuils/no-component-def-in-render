@@ -1,4 +1,4 @@
-const { createCallable } = require("../nodes/Callable");
+import { createCallable } from "../nodes/Callable.js";
 
 const isParentPredicateMap = {
 	MethodDefinition: (node) => node.type === "FunctionExpression",
@@ -40,6 +40,4 @@ const createParentTraverser = (node) => {
 	};
 };
 
-module.exports = {
-	createParentTraverser,
-};
+export { createParentTraverser };

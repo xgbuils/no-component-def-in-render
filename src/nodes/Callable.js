@@ -1,4 +1,4 @@
-const { getIdentifiers } = require("../utils/getIdentifiers");
+import { getIdentifiers } from "../utils/getIdentifiers.js";
 
 const getParamIdentifiers = (node) => node.params.flatMap(getIdentifiers);
 
@@ -25,6 +25,4 @@ const createCallable = (node) => {
 	};
 };
 
-module.exports = {
-	createCallable,
-};
+export { createCallable };

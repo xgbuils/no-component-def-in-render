@@ -47,6 +47,4 @@ const createBlockStatement = (node) => {
 	};
 };
 
-module.exports = {
-	createBlockStatement,
-};
+export { createBlockStatement };
