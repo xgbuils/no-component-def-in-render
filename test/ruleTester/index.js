@@ -32,7 +32,7 @@ const createTestGroup = ({ valid, invalid, file, versions } = {}) => {
 			};
 			try {
 				ruleTester.run(
-					"restricted-nested-component-def", // rule name
+					"no-component-def-in-render", // rule name
 					noNestedComponentDefinition, // rule code
 					cases,
 				);

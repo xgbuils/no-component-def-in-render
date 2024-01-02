@@ -1,10 +1,10 @@
 const ERROR_MESSAGE =
-	"Do not declare component NestedComponent in the same scope is rendered. Move the component declaration out of the ParentComponent scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components";
+	"Do not define component NestedComponent in the same scope is rendered. Move the component definition out of the ParentComponent scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components";
 
 const valid = [
 	{
 		description:
-			"map arrow function callback without component declaration inside",
+			"map arrow function callback without component definition inside",
 		code: `
 		const ParentComponent = ({list}) => {
 			return (
@@ -20,7 +20,7 @@ const valid = [
 	},
 	{
 		description:
-			"map anonymous function callback without component declaration inside",
+			"map anonymous function callback without component definition inside",
 		code: `
 		const ParentComponent = ({list}) => {
 			return (
@@ -36,7 +36,7 @@ const valid = [
 	},
 	{
 		description:
-			"map named function callback without component declaration inside",
+			"map named function callback without component definition inside",
 		code: `
 		const ParentComponent = ({list}) => {
 			return (
@@ -54,8 +54,7 @@ const valid = [
 
 const invalid = [
 	{
-		description:
-			"map arrow function callback with component declaration inside",
+		description: "map arrow function callback with component definition inside",
 		code: `
 		const ParentComponent = ({list}) => {
 			return (
@@ -72,7 +71,7 @@ const invalid = [
 	},
 	{
 		description:
-			"map anonymous function callback with component declaration inside",
+			"map anonymous function callback with component definition inside",
 		code: `
 		const ParentComponent = ({list}) => {
 			return (
@@ -88,8 +87,7 @@ const invalid = [
 		errors: [{ message: ERROR_MESSAGE }],
 	},
 	{
-		description:
-			"map named function callback with component declaration inside",
+		description: "map named function callback with component definition inside",
 		code: `
 			const ParentComponent = ({list}) => {
 				return (

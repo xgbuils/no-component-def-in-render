@@ -2,7 +2,7 @@ import { createErrorCollector } from "./utils/errorCollector.js";
 import { createParentTraverser } from "./utils/parentTraverser.js";
 
 const generateErrorMessage = (functionName, componentName) => {
-	return `Do not declare component ${componentName} in the same scope is rendered. Move the component declaration out of the${
+	return `Do not define component ${componentName} in the same scope is rendered. Move the component definition out of the${
 		functionName ? ` ${functionName} ` : " function "
 	}scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components`;
 };

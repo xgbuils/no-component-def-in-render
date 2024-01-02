@@ -1,7 +1,7 @@
 const ERROR_MESSAGE =
-	"Do not declare component NestedComponent in the same scope is rendered. Move the component declaration out of the ParentComponent scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components";
+	"Do not define component NestedComponent in the same scope is rendered. Move the component definition out of the ParentComponent scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components";
 const ERROR_MESSAGE_WITHOUT_FUNCTION_NAME =
-	"Do not declare component NestedComponent in the same scope is rendered. Move the component declaration out of the function scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components";
+	"Do not define component NestedComponent in the same scope is rendered. Move the component definition out of the function scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components";
 const nestedComponentReturnStatement = ({ withJSX }) =>
 	withJSX ? "return <div />;" : 'return React.createElement("div", null);';
 

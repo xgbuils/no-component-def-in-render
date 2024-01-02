@@ -1,7 +1,7 @@
 const ERROR_MESSAGE =
-	"Do not declare component NestedComponent in the same scope is rendered. Move the component declaration out of the parentFunction scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components";
+	"Do not define component NestedComponent in the same scope is rendered. Move the component definition out of the parentFunction scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components";
 const ERROR_MESSAGE_WHEN_CLASS_COMPONENT =
-	"Do not declare component NestedComponent in the same scope is rendered. Move the component declaration out of the ParentComponent scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components";
+	"Do not define component NestedComponent in the same scope is rendered. Move the component definition out of the ParentComponent scope. More info: https://react.dev/learn/your-first-component#nesting-and-organizing-components";
 
 const valid = [
 	{

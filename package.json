@@ -1,5 +1,5 @@
 {
-	"name": "eslint-restricted-nested-component-def",
+	"name": "eslint-no-component-def-in-render",
 	"type": "module",
 	"version": "0.1.0",
 	"description": "avoid nested component definitions ",
