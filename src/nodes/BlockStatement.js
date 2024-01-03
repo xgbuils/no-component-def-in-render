@@ -16,14 +16,43 @@ const createVariableCollector = (variables) => {
 				});
 			} else if (id.type === "ObjectPattern") {
 				id.properties.forEach((property) => {
-					const propValue = (init?.properties ?? []).find(
-						(propValue) => propValue.key.name === property.key.name,
-					) ?? { value: null };
-					this.add(property.value, propValue.value, declaratorNode);
+					let propValue;
+					if (init.type === "ObjectExpression") {
+						propValue =
+							init.properties.find(
+								(propValue) => propValue.key.name === property.key.name,
+							).value ?? null;
+					} else {
+						propValue = {
+							type: "MemberExpression",
+							object: init,
+							property: {
+								type: "Identifier",
+								name: property.key.name,
+							},
+						};
+						propValue.property.parent = propValue;
+					}
+					this.add(property.value, propValue, declaratorNode);
 				});
 			} else if (id.type === "ArrayPattern") {
 				id.elements.forEach((element, index) => {
-					this.add(element, init?.elements?.[index] ?? null, declaratorNode);
+					let elementValue;
+					if (init.type === "ArrayExpression") {
+						elementValue = init.elements[index] ?? null;
+					} else {
+						elementValue = {
+							type: "MemberExpression",
+							object: init,
+							property: {
+								type: "Literal",
+								name: index,
+								raw: `${index}`,
+							},
+						};
+						elementValue.property.parent = elementValue;
+					}
+					this.add(element, elementValue, declaratorNode);
 				});
 			}
 		},

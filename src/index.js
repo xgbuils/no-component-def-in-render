@@ -1,4 +1,4 @@
-import { createErrorCollector } from "./utils/errorCollector.js";
+import { createComponentDefinitionInRenderValidator } from "./utils/errorCollector.js";
 import { createParentTraverser } from "./utils/parentTraverser.js";
 
 const generateErrorMessage = (functionName, componentName) => {
@@ -24,17 +24,20 @@ const createReporter = (context, componentName) => ({
 const validate = (context, node, componentName) => {
 	const reporter = createReporter(context, componentName);
 	const parentTraverser = createParentTraverser(node);
-	const errorCollector = createErrorCollector(context, componentName);
+	const validator = createComponentDefinitionInRenderValidator(
+		context,
+		componentName,
+	);
 
 	parentTraverser
 		.forEach((node) => {
 			if (node.type === "BlockStatement") {
-				errorCollector.evaluateVariables(node);
+				validator.evaluateVariables(node);
 			}
 		})
 		.end((callable) => {
-			errorCollector.evaluateParams(callable);
-			const nodes = errorCollector.getErrorNodes();
+			validator.evaluateParams(callable);
+			const nodes = validator.getInvalidDefinitions();
 			reporter.report(callable.getName(), nodes);
 		});
 };
@@ -59,9 +62,6 @@ export default {
 						type: "boolean",
 					},
 					allowOrOperator: {
-						type: "boolean",
-					},
-					allowRenaming: {
 						type: "boolean",
 					},
 					allowTernary: {

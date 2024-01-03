@@ -4,6 +4,16 @@ const ERROR_MESSAGE =
 const valid = [
 	{
 		description:
+			"using component map and OR operator to define a default component is valid by default",
+		code: `
+		const ParentComponent = ({type}) => {
+			const NestedComponent = componentMap[type] || DefaultComponent;
+			return <NestedComponent />;
+		}
+	`,
+	},
+	{
+		description:
 			"using component map and OR operator to define a default component is valid when allowed",
 		code: `
 		const ParentComponent = ({type}) => {
@@ -20,12 +30,25 @@ const valid = [
 	},
 	{
 		description:
+			"using component map, ternary operator and OR operator to define a default component is valid by default",
+		code: `
+		const ParentComponent = ({type, success}) => {
+			const NestedComponent = (success
+        ? componentMap[type]
+        : otherComponentMap[type])
+        || DefaultComponent;
+			return <NestedComponent />;
+		}
+	`,
+	},
+	{
+		description:
 			"using component map, ternary operator and OR operator to define a default component is valid when allowed",
 		code: `
 		const ParentComponent = ({type, success}) => {
 			const NestedComponent = (success
-        ? componentMap[type] 
-        : otherComponentMap[type]) 
+        ? componentMap[type]
+        : otherComponentMap[type])
         || DefaultComponent;
 			return <NestedComponent />;
 		}
@@ -33,7 +56,6 @@ const valid = [
 		options: [
 			{ allowComponentMap: true, allowTernary: true, allowOrOperator: true },
 		],
-		errors: [{ message: ERROR_MESSAGE }],
 	},
 ];
 
@@ -59,7 +81,7 @@ const invalid = [
 			return <NestedComponent />;
 		}
 	`,
-		options: [{ allowComponentMap: true }],
+		options: [{ allowComponentMap: true, allowOrOperator: false }],
 		errors: [{ message: ERROR_MESSAGE }],
 	},
 	{
@@ -68,13 +90,15 @@ const invalid = [
 		code: `
 		const ParentComponent = ({type, success}) => {
 			const NestedComponent = (success
-        ? componentMap[type] 
-        : otherComponentMap[type]) 
+        ? componentMap[type]
+        : otherComponentMap[type])
         || DefaultComponent;
 			return <NestedComponent />;
 		}
 	`,
-		options: [{ allowComponentMap: true, allowTernary: true }],
+		options: [
+			{ allowComponentMap: true, allowTernary: true, allowOrOperator: false },
+		],
 		errors: [{ message: ERROR_MESSAGE }],
 	},
 ];

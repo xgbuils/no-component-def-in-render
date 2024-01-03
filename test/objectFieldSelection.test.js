@@ -4,6 +4,16 @@ const ERROR_MESSAGE =
 const valid = [
 	{
 		description:
+			"create a component from an object with dynamic prop is valid by default",
+		code: `
+    const ParentComponent = ({type}) => {
+      const NestedComponent = componentMap[type];
+      return <NestedComponent />;
+    }
+  `,
+	},
+	{
+		description:
 			"create a component from an object with dynamic prop is valid when allowed",
 		code: `
     const ParentComponent = ({type}) => {
@@ -12,6 +22,16 @@ const valid = [
     }
   `,
 		options: [{ allowComponentMap: true }],
+	},
+	{
+		description:
+			"create a component from an object with hardcoded prop is valid by default",
+		code: `
+    const ParentComponent = () => {
+      const NestedComponent = componentMap.Component;
+      return <NestedComponent />;
+    }
+  `,
 	},
 	{
 		description:
@@ -52,11 +72,35 @@ const invalid = [
         medium: MediumComponent,
         large: LargeComponent,
       }
-      const NestedComponent = componentMap.Component;
+      const NestedComponent = componentMap.medium;
       return <NestedComponent />;
     }
   `,
 		options: [{ allowComponentMap: true }],
+		errors: [{ message: ERROR_MESSAGE }],
+	},
+	{
+		description:
+			"create a component from an object with dynamic prop is invalid when not allowed",
+		code: `
+    const ParentComponent = ({type}) => {
+      const NestedComponent = componentMap[type];
+      return <NestedComponent />;
+    }
+  `,
+		options: [{ allowComponentMap: false }],
+		errors: [{ message: ERROR_MESSAGE }],
+	},
+	{
+		description:
+			"create a component from an object with hardcoded prop is valid when not allowed",
+		code: `
+    const ParentComponent = () => {
+      const NestedComponent = componentMap.Component;
+      return <NestedComponent />;
+    }
+  `,
+		options: [{ allowComponentMap: false }],
 		errors: [{ message: ERROR_MESSAGE }],
 	},
 ];

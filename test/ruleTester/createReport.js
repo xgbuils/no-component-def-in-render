@@ -10,7 +10,6 @@ const isParsingError = (error) => {
 
 export const createReport = (error, useCase) => {
 	const ErrorClass = Object.getPrototypeOf(error).constructor;
-	console.log(useCase.type, error);
 
 	if (useCase.type !== "parsing" && isParsingError(error)) {
 		return {
@@ -30,6 +29,9 @@ export const createReport = (error, useCase) => {
 		};
 	}
 	return {
+		...error,
+		...useCase,
+		message: error.message,
 		error,
 		errorType: "UnexpectedError",
 	};

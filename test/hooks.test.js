@@ -18,7 +18,7 @@ const invalid = [
 		description: "Nested component using useCallback",
 		code: `
 		const ParentComponent = () => {
-			const NestedComponent = useMemo(() => <Component />, []);
+			const NestedComponent = useCallback(() => <Component />, []);
 			return <NestedComponent />;
 		}
 	`,

@@ -232,7 +232,6 @@ const invalid = [
 		}),
 		errors: [{ message: ERROR_MESSAGE }],
 	},
-	,
 	{
 		code: createSimpleNestedCode({
 			withJSX: true,

@@ -16,7 +16,6 @@ const valid = [
 			)
 		};
 	`,
-		errors: [{ message: ERROR_MESSAGE }],
 	},
 	{
 		description:
@@ -32,7 +31,6 @@ const valid = [
 			)
 		};
 	`,
-		errors: [{ message: ERROR_MESSAGE }],
 	},
 	{
 		description:
@@ -48,7 +46,6 @@ const valid = [
 			)
 		};
 	`,
-		errors: [{ message: ERROR_MESSAGE }],
 	},
 ];
 

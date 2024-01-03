@@ -13,6 +13,15 @@ const valid = [
 		options: [{ allowTernary: true }],
 	},
 	{
+		description: "create a nested component using ternary without options",
+		code: `
+			const ParentComponent = ({success}) => {
+				const NestedComponent = success ? SuccessComponent : ErrorComponent;
+				return <NestedComponent />;
+			}
+		`,
+	},
+	{
 		description: "create a nested component using double ternary",
 		code: `
 			const ParentComponent = ({success, isValid}) => {
@@ -22,13 +31,13 @@ const valid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowTernary: true }],
 	},
 ];
 
 const invalid = [
 	{
-		description: "create a nested component using ternary is not valid",
+		description:
+			"create a nested component using ternary is not valid if it is not allowed",
 		code: `
 			const ParentComponent = ({success}) => {
 				const NestedComponent = success ? SuccessComponent : ErrorComponent;
@@ -36,6 +45,7 @@ const invalid = [
 			}
 		`,
 		errors: [{ message: ERROR_MESSAGE }],
+		options: [{ allowTernary: false }],
 	},
 ];
 

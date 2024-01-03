@@ -10,7 +10,6 @@ const valid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowRenaming: true }],
 	},
 	{
 		description: "multiple nested component assign",
@@ -23,7 +22,6 @@ const valid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowRenaming: true }],
 	},
 	{
 		description: "multiple nested component assign in different scopes",
@@ -40,7 +38,6 @@ const valid = [
         return <FirstComponent />;
       }
     `,
-		options: [{ allowRenaming: true }],
 	},
 	{
 		description: "simple object destructuring renaming",
@@ -51,7 +48,6 @@ const valid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowRenaming: true }],
 	},
 	{
 		description: "simple object destructuring renaming",
@@ -62,7 +58,6 @@ const valid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowRenaming: true }],
 	},
 	{
 		description: "simple array destructuring renaming",
@@ -73,7 +68,6 @@ const valid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowRenaming: true }],
 	},
 	{
 		description: "array, then object destructuring",
@@ -84,7 +78,6 @@ const valid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowRenaming: true }],
 	},
 	{
 		description: "object, then array destructuring",
@@ -95,21 +88,10 @@ const valid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowRenaming: true }],
 	},
 ];
 
 const invalid = [
-	{
-		description: "nested component assign",
-		code: `
-			const ParentComponent = ({success}) => {
-				const NestedComponent = OtherComponent;
-				return <NestedComponent />;
-			}
-		`,
-		errors: [{ message: ERROR_MESSAGE }],
-	},
 	{
 		description:
 			"multiple nested component assign that finishes with nested definition",
@@ -123,7 +105,6 @@ const invalid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowRenaming: true }],
 		errors: [{ message: ERROR_MESSAGE }],
 	},
 	{
@@ -135,7 +116,6 @@ const invalid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowRenaming: true }],
 		errors: [{ message: ERROR_MESSAGE }],
 	},
 	{
@@ -147,7 +127,6 @@ const invalid = [
 				return <NestedComponent />;
 			}
 		`,
-		options: [{ allowRenaming: true }],
 		errors: [{ message: ERROR_MESSAGE }],
 	},
 ];

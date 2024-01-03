@@ -1,17 +1,39 @@
 import { createBlockStatement } from "../nodes/BlockStatement.js";
 
-const createNestedComponentValidator = (componentName, options) => {
+const calculateOptions = (context) => {
+	const options = context.options[0] ?? {};
+	return {
+		allowOrOperator: true,
+		allowNullishOperator: true,
+		allowComponentMap: true,
+		allowTernary: true,
+		...options,
+	};
+};
+
+export const createComponentDefinitionInRenderValidator = (
+	context,
+	componentName,
+) => {
+	const options = calculateOptions(context);
 	let currentVariableNames = [componentName];
 	const invalidVariableValues = [];
 	return {
-		evaluate(blockStatement) {
+		evaluateVariables(node) {
+			const blockStatement = createBlockStatement(node);
 			let freeVariables = new Set();
 			let currentVariableValues;
 			let nextVariableValues = currentVariableNames.reduce(
 				(result, variableName) => {
 					const variable = blockStatement.getVariable(variableName);
 					if (variable) {
-						result.push(variable.init);
+						if (variable.type === "VariableDeclarator") {
+							result.push(variable.init);
+						} else {
+							result.push(variable);
+						}
+					} else {
+						freeVariables.add(variableName);
 					}
 					return result;
 				},
@@ -59,57 +81,17 @@ const createNestedComponentValidator = (componentName, options) => {
 				}
 			}
 			currentVariableNames = [...freeVariables];
+		},
+		evaluateParams(callable) {
+			currentVariableNames.forEach((freeVariable) => {
+				const invalidDefinition = callable.getParam(freeVariable);
+				if (invalidDefinition) {
+					invalidVariableValues.push(invalidDefinition);
+				}
+			});
+		},
+		getInvalidDefinitions() {
 			return invalidVariableValues;
 		},
 	};
 };
-
-const calculateOptions = (context) => {
-	const options = context.options[0] ?? {};
-	if (Object.keys(options).length === 0) {
-		return {};
-	}
-	return {
-		...options,
-		allowRenaming: true,
-	};
-};
-
-const createErrorCollector = (context, componentName) => {
-	const options = calculateOptions(context);
-	const nestedComponentValidator = createNestedComponentValidator(
-		componentName,
-		options,
-	);
-	let errorNode = null;
-	let invalidNodes = [];
-
-	return {
-		evaluateVariables(node) {
-			const blockStatement = createBlockStatement(node);
-			if (!errorNode) {
-				if (options.allowRenaming) {
-					invalidNodes = nestedComponentValidator.evaluate(blockStatement);
-				} else {
-					errorNode = blockStatement.getVariable(componentName);
-					if (errorNode) {
-						invalidNodes.push(errorNode);
-					}
-				}
-			}
-		},
-		evaluateParams(callable) {
-			if (!errorNode) {
-				errorNode = callable.getParam(componentName);
-				if (errorNode) {
-					invalidNodes.push(errorNode);
-				}
-			}
-		},
-		getErrorNodes() {
-			return invalidNodes;
-		},
-	};
-};
-
-export { createErrorCollector };

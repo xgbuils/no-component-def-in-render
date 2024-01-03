@@ -57,10 +57,7 @@ const map = {
 		},
 		closeArray: {
 			state: "END",
-			transform: (value) => {
-				console.log("heey", "ARRAY", "closeArray", value);
-				return value;
-			},
+			transform: (value) => value,
 		},
 	},
 	OBJECT: {
@@ -176,7 +173,6 @@ export const parseErrorMessage = (error) => {
 			errors,
 		};
 	} catch (unexpectedError) {
-		console.log("eeeeee", error);
 		return {
 			message: error.message,
 		};
