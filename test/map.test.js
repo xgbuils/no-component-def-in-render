@@ -99,6 +99,57 @@ const invalid = [
 		`,
 		errors: [{ message: ERROR_MESSAGE }],
 	},
+	{
+		description:
+			"map arrow function callback and component definition in component that calls map",
+		code: `
+		const ParentComponent = ({list}) => {
+			const NestedComponent = () => <div/>;
+			return (
+				<div>
+					{list.map((item) => {
+						return <NestedComponent {...item} />
+					})}
+				</div>
+			)
+		};
+	`,
+		errors: [{ message: ERROR_MESSAGE }],
+	},
+	{
+		description:
+			"map anonymous function callback and component definition in component that calls map",
+		code: `
+		const ParentComponent = ({list}) => {
+			const NestedComponent = () => <div/>;
+			return (
+				<div>
+					{list.map(function(item) {
+						return <NestedComponent {...item} />
+					})}
+				</div>
+			)
+		};
+	`,
+		errors: [{ message: ERROR_MESSAGE }],
+	},
+	{
+		description:
+			"map named function callback and component definition in component that calls map",
+		code: `
+			const ParentComponent = ({list}) => {
+				const NestedComponent = () => <div/>;
+				return (
+					<div>
+						{list.map(function innerFunction(item) {
+							return <NestedComponent {...item} />
+						})}
+					</div>
+				)
+			};
+		`,
+		errors: [{ message: ERROR_MESSAGE }],
+	},
 ];
 
 export { valid, invalid };
